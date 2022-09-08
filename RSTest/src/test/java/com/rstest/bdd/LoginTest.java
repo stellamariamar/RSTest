@@ -44,6 +44,9 @@ public class LoginTest {
         WelcomePage welcomePage = new WelcomePage(driver);
         String msg = welcomePage.getWelcomeMsg();
         assertThat(msg).isEqualTo("Welcome " + name);
+        System.out.println("Great, you are logged in");
+        welcomePage.logout();
+
 
     }
 

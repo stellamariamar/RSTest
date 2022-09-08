@@ -8,4 +8,3 @@ Feature: Logging in to RS Website
     Examples:
       | Username        | Password        |   Name     |
       | testaccount001  | testpassword001 |   Testname |
-      | dummyuser       | dummypass       |   Dummy    |

@@ -28,7 +28,10 @@ import static org.assertj.core.api.Assertions.assertThat;
             return welcome.getText();
 
         }
-
+        public void logout (){
+            WebElement logoutBtn = driver.findElement(By.id("js-logInOut"));
+            logoutBtn.click();
+        }
     }
 
 
