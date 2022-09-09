@@ -1,4 +1,4 @@
-@execute
+
 Feature: Using search functionality and adding items to cart
   Scenario Outline: Search for a product and add items to the cart
     Given The user is on the homepage of the website
@@ -8,4 +8,6 @@ Feature: Using search functionality and adding items to cart
 
     Examples:
       | Product                                       |
-      | Raspberry pi 4                                |
+      | Philips Lighting 36 W T8 Fluorescent Tube     |
+      | Rasperry Pi                                   |
+      | Squire Padlock                                |

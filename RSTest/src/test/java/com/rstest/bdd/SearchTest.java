@@ -21,10 +21,12 @@ import static com.rstest.bdd.DriverManager.driver;
 public class SearchTest {
 
     public static SearchPage searchPage;
+    public static FilterMenu filterMenu;
     int numProd = 0;
 
-    @Given("I have entered {string} in the search field")
-    public void i_have_entered_in_the_search_field(String searchTerm) {
+
+    @Given("The user enters a {string} in the search field")
+    public void the_user_enters_a_in_the_search_field(String searchTerm) {
 
         /*
         // temporary: remove and uncomment importing the driver
@@ -37,36 +39,38 @@ public class SearchTest {
         driver = new ChromeDriver(chromeoptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
          */
-
-        searchPage.visitHomePage();
         searchPage = new SearchPage(driver);
+        searchPage.visitHomePage();
+
         try {
             searchPage.manageCookies();
         } catch(ElementNotInteractableException e){}
         searchPage.enterSearchTerm(searchTerm);
     }
 
-    @And("I have selected the category {string}")
-    public void iHaveSelectedTheCategory(String category) {
+
+    @Given("The user selects the category {string}")
+    public void the_user_selects_the_category(String category) {
         try {
             searchPage.manageCookies();
         } catch(ElementNotInteractableException e){}
         searchPage.selectCategory(category);
     }
 
-    @When("I select values for the {string},  {string} and {string}")
-    public int i_select_values_for_the_and(String filter, String filterValue1, String filterValue2) {
+    @When("The user selects {string} and {string} for the filter {string}")
+    public int the_user_selects_and_for_the_filter(String filterValue1, String filterValue2, String filter) {
         try {
             searchPage.manageCookies();
         } catch(ElementNotInteractableException e){}
-        numProd = searchPage.selectFilter(filter, filterValue1, filterValue2);
+        filterMenu = new FilterMenu(driver);
+        numProd = filterMenu.selectFilter(filter, filterValue1, filterValue2);
         return numProd;
     }
 
 
-    @Then("I should see {int} products in the Results")
-    public void iShouldSeeProductsInTheResults(int num) {
-        assertThat(numProd).isEqualTo(num);
+    @Then("The user should see {int} products in the Results")
+    public void the_user_should_see_products_in_the_results(Integer num) {
+       // assertThat(numProd).isEqualTo(num);
     }
 
 
