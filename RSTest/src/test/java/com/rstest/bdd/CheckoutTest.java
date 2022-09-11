@@ -4,57 +4,41 @@ import com.rstest.pom.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.ElementNotInteractableException;
+
+import java.util.Map;
 
 import static com.rstest.bdd.DriverManager.driver;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CheckoutTest {
 
+    public HomePage home;
+    public CheckoutPage checkoutPage;
 
-    public static SearchPage searchPage = new SearchPage(driver);
-    public static ResultsPage resultsPage = new ResultsPage(driver);
-    public static CartPage cartPage = new CartPage(driver);
-
-    String stockNo = " ";
-    @Given("I have a {string} in my basket")
-    public void i_have_a_in_my_basket(String product) {
-        searchPage.visitHomePage();
-        searchPage.deleteStorage();
-        searchPage.visitHomePage();
-        try {
-            searchPage.manageCookies();
-        } catch(ElementNotInteractableException e){
-
-        }
-        searchPage.enterSearchTerm(product);
-       // stockNo = resultsPage.addToCart();
-        cartPage.viewBasket();
-
+    @Given("I have a product with MPN {string} in my basket")
+    public void i_have_a_product_with_mpn_in_my_basket(String MPN) {
+        home = new HomePage(driver);
+        ProductPage product = home.searchMPN(MPN);
+        product.addToCart(1);
     }
 
-    @Given("I adjust the quantity to {int}")
-    public void i_adjust_the_quantity_to(Integer quantity) {
-        System.out.println("Will try to increase quantity for "+stockNo);
-        //cartPage.quantityIncrease(stockNo);
-        //cartPage.setQuantity(stockNo, quantity);
-        cartPage.viewBasket();
-
+    @When("I proceed to checkout as a guest")
+    public void i_proceed_to_checkout_as_a_guest() {
+       BasketPage basket = new BasketPage(driver);
+       checkoutPage = basket.checkout();
     }
 
-    @When("I enter my delivery details {string}, {string}, {string}, {string}, {string}, {string}")
-    public void i_enter_my_delivery_details(String name, String surname, String email, String delName, String address, String postcode) {
-       CheckoutPage checkoutPage =  cartPage.checkout();
-       checkoutPage.enterDeliveryDetails(name, surname, email, delName, address, postcode);
-
-       try {Thread.sleep(5000);}
-       catch(InterruptedException e){}
-    }
-    @Then("I can proceed to the payment page")
-    public void i_can_proceed_to_the_payment_page() {
-
+    @When("I enter my delivery details:")
+    public void i_enter_my_delivery_details(Map<String, String> details) {
+        checkoutPage.enterDeliveryDetails(details);
+        try { Thread.sleep(5000);} catch (InterruptedException e) {}
+        checkoutPage.submit();
     }
 
-
-
+    @Then("I can fill in my payment details")
+    public void i_can_fill_in_my_payment_details() {
+        assertThat(checkoutPage.confirmPaymentIsEnabled()).isTrue();
+        try { Thread.sleep(5000);} catch (InterruptedException e) {}
+    }
 
 }

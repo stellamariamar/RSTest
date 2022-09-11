@@ -1,4 +1,4 @@
-package com.rstest.bdd;
+/*package com.rstest.bdd;
 import com.rstest.pom.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -48,3 +48,4 @@ public class AddToCartTest {
     }
 
 }
+*/

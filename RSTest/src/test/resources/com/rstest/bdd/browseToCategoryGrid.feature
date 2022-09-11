@@ -1,9 +1,9 @@
-@execute
-Feature: Category page
 
-  Scenario Outline: Reach a category page through browsing
+Feature: View the Sub-Category page
+
+  Scenario Outline: Reach a sub-category page through browsing
     Given I visit the Homepage
-    When I browse from "<L0Category>" through "<L1Category>" to "<L2Category>"
+    When  I browse from "<L0Category>" through "<L1Category>" to "<L2Category>"
     Then I see a grid of sub-categories
 
     Examples:

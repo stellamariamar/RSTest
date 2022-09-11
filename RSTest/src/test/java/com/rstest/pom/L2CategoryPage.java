@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class L2CategoryPage extends PageObject {
+public class L2CategoryPage extends PageSearchObject {
 
     public L2CategoryPage(WebDriver driver) {
         super(driver);

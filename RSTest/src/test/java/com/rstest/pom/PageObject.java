@@ -22,7 +22,7 @@ public class PageObject {
 
     public void manageCookies() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             WebElement cookies = wait.until(ExpectedConditions.elementToBeClickable(By.id("ensModalBanner")));
             cookies.click();
             WebElement cookiesMin = driver.findElement(By.id("ensSave"));
@@ -38,11 +38,9 @@ public class PageObject {
 
     public void deleteStorage(){
         driver.manage().deleteAllCookies();
-        WebStorage storage = (WebStorage) driver;
-        storage.getLocalStorage().clear();
-        //((JavascriptExecutor)(driver)).executeScript(
-        //        "window.localStorage.clear();"
-        //);
+        //WebStorage storage = (WebStorage) driver;
+        //storage.getLocalStorage().clear();
+        //((JavascriptExecutor)(driver)).executeScript("window.localStorage.clear();");
     }
 
     public void visitHomePage() {

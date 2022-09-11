@@ -1,0 +1,70 @@
+package com.rstest.pom;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+
+public class SearchResultsPage extends PageSearchObject {
+
+    public SearchResultsPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public boolean confirm() {
+        try {
+            driver.findElement(By.id("search-results"));
+            return true;
+        } catch(NullPointerException e) {
+            return false;
+        }
+    }
+
+    public TerminalNodePage selectSubCategory(String subCategory, String category) {
+        // Find the Category
+        WebElement weCategory = driver.findElement(
+                By.xpath(
+                        String.format(
+                                "//span[@data-qa='primary' and text()='%s']/ancestor::div[@data-qa='level-two-category']",
+                                category
+                        )
+                )
+        );
+
+        try {
+            // Find the sub-Category within the Category
+            WebElement weSubCategory = weCategory.findElement(
+                    By.xpath(
+                            String.format(
+                                    ".//li//span[@data-qa='primary' and text()='%s']",
+                                    subCategory
+                            )
+                    )
+            );
+            weSubCategory.click();
+
+        }catch(NoSuchElementException e){
+            // If the sub Category is not present, click on 'See more' and try again
+            WebElement weSeeMore = weCategory.findElement(
+                    By.xpath(".//a[text()='See more']")
+            );
+            weSeeMore.click();
+            WebElement weSubCategory = weCategory.findElement(
+                    By.xpath(
+                            String.format(
+                                    ".//li//span[@data-qa='primary' and text()='%s']",
+                                    subCategory
+                            )
+                    )
+            );
+            weSubCategory.click();
+
+        }
+        return new TerminalNodePage(driver);
+    }
+
+
+
+
+}

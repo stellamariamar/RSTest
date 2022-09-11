@@ -5,21 +5,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class HomePage extends PageObject {
+public class HomePage extends PageSearchObject {
 
     public HomePage(WebDriver driver) {
         super(driver);
+        deleteStorage();
         driver.get("https://uk.rs-online.com/web/");
         manageCookies();
-    }
-
-    public void search(String searchTerm) {
-        // Search page
-        WebElement searchBox = driver.findElement(By.xpath("//input[@name='searchTerm']"));
-        searchBox.sendKeys(searchTerm);
-        searchBox.sendKeys(Keys.RETURN);
-
-       // return new SearchResultsPage(driver);
     }
 
     public void clickBrowse() {

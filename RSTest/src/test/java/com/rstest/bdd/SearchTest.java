@@ -14,7 +14,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.time.Duration;
 import java.util.Arrays;
-
+/*
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.rstest.bdd.DriverManager.driver;
 
@@ -38,7 +38,7 @@ public class SearchTest {
         caps.setCapability(ChromeOptions.CAPABILITY, chromeoptions);
         driver = new ChromeDriver(chromeoptions);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
-         */
+
         searchPage = new SearchPage(driver);
         searchPage.visitHomePage();
 
@@ -75,3 +75,4 @@ public class SearchTest {
 
 
 }
+*/
