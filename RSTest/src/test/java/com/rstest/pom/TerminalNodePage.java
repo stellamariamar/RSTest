@@ -83,34 +83,27 @@ public class TerminalNodePage extends PageSearchObject {
             )
         );
         System.out.println("Parent Div Text: "+ sortHeadingDiv.getText());
+        String th_selector;
+        if (sortOption.equals("Price")) {
+            th_selector = "@data-qa='terminal-node-product-price-header'";
+        } else {
+            th_selector = "@class='attribute-header'";
+        }
         WebElement weSortAttr = sortHeadingDiv.findElement(
                 By.xpath(
-                        String.format(".//div[contains(text(),'%s')]", sortOption)
-                       // String.format(".//div[contains(text(),'%s')]//ancestor::th[@class='attribute-header']", sortOption)
-                        //String.format(".//div[text='%s']/ancestor::th[@class='attribute-header']", sortOption)
+                        String.format(".//div[text()='%s']//ancestor::th[%s]", sortOption, th_selector)
                 )
         );
         System.out.println("weSortAttr : "+ weSortAttr.getText());
-/*
-        if (sortType.trim().equals("ASC")) {
-            WebElement sortBtn = weSortAttr.findElement(
-                    By.xpath(
-                            ".//ancestor::div[contains(@data-qa,'_ASC')]"
-                    )
-            );
-            System.out.println("sortBtn : "+ sortBtn.getText());
-            sortBtn.click();
-        }
-        else {
-            WebElement sortBtn = sortHeadingDiv.findElement(
-                    By.xpath(
-                            ".//ancestor::div[contains(@data-qa,'_DESC')]"
-                    )
-            );
-            System.out.println("sortBtn : "+ sortBtn.getText());
-            sortBtn.click();
-        }
-*/
+
+        WebElement sortBtn = weSortAttr.findElement(
+                By.xpath(String.format(
+                        ".//../following-sibling::div/div[contains(@data-qa,'_%s')]", sortType.trim()
+                ))
+        );
+        System.out.println("sortBtn : "+ sortBtn.getAttribute("data-qa"));
+        sortBtn.click();
+
 
         //actions.moveToElement(applyFilterBtn).click().build().perform();
     }

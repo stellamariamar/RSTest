@@ -1,10 +1,8 @@
 package com.rstest.pom;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 
 public class ProductPage extends PageSearchObject {
@@ -22,24 +20,21 @@ public class ProductPage extends PageSearchObject {
         }
     }
 
-    public void addToCart(int quantity) {
-        System.out.println(quantity);
-
-        WebElement weAddToBasket = driver.findElement(By.xpath("//div[@data-testid='desktop']//button[@data-testid='add-to-basket-button']/span"));
-        WebElement weIncreaseBtn = driver.findElement(By.xpath("//div[@data-testid='desktop']//button[@data-testid='increase-button']"));
+    public void setQuantity(Integer quantity) {
+        // locate quantity field
         WebElement weQuanInput = driver.findElement(By.xpath("//div[@data-testid='desktop']//input[@id='quantity-input']"));
+        // enter quantity
+        weQuanInput.click();
+        weQuanInput.clear();
+        weQuanInput.sendKeys(quantity.toString());
+    }
 
-        JavascriptExecutor executor = (JavascriptExecutor) driver;
-        //executor.executeScript(String.format("arguments[0].setAttribute('value', '%d');", quantity), weQuanInput);
-        executor.executeScript("arguments[0].setAttribute('value', '3');", weQuanInput);
-       // weIncreaseBtn.click();
-       // weIncreaseBtn.click();
-       //
+    public void addToBasket() {
+        // locate button
+        WebElement weAddToBasket = driver.findElement(
+                By.xpath("//div[@data-testid='desktop']//button[@data-testid='add-to-basket-button']/span")
+        );
+        // add to basket
         weAddToBasket.click();
-
-
-        try { Thread.sleep(5000);} catch (InterruptedException e) {}
-
-        //executor.executeScript("arguments[0].click()", weAddToBasket);
     }
 }

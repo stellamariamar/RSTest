@@ -7,5 +7,5 @@ Feature: Add to basket from Filter Page
 
     Examples:
         |Search Term | SubCategory          | Category            | SortBy   | SortType |
-        | Stem Robot | STEM Robot Kits      | STEM education      |Price     |  DESC     |
-        | Laser Level| Laser Levels         | Measuring & Marking |Brand     |  ASC    |
+        | Laser Level| Laser Levels         | Measuring & Marking |Price     |  ASC     |
+        | Stem Robot | STEM Robot Kits      | STEM education      |Robot Kit Type     |  DESC    |

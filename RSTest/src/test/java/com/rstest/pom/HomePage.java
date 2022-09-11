@@ -1,7 +1,6 @@
 package com.rstest.pom;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -9,8 +8,8 @@ public class HomePage extends PageSearchObject {
 
     public HomePage(WebDriver driver) {
         super(driver);
-        deleteStorage();
         driver.get("https://uk.rs-online.com/web/");
+        //deleteStorage();  // unsure if this is effective
         manageCookies();
     }
 
@@ -18,7 +17,9 @@ public class HomePage extends PageSearchObject {
         driver.findElement(By.xpath("//div[@data-qa='browse']")).click();
     }
 
-    public void selectCategory(String category, int level) {
+    public void selectBrowseCategory(String category, int level) {
+        // in the browse menu, select a specific `category`, in a specific `level`
+        // (categories are in layered in levels 0, 1 and 2, from more general to more specific)
         WebElement weCategory  = driver.findElement(
             By.xpath(
                 String.format(
@@ -31,11 +32,12 @@ public class HomePage extends PageSearchObject {
     }
 
     public L2CategoryPage browse(String l0Category, String l1Category, String l2Category) {
+        // browse to a specific `l2Category` page, going through its `l0Category` and `l1Category` ancestors
         clickBrowse();
-        selectCategory(l0Category, 0);
-        selectCategory(l1Category, 1);
-        selectCategory(l2Category, 2);
-
+        selectBrowseCategory(l0Category, 0);
+        selectBrowseCategory(l1Category, 1);
+        selectBrowseCategory(l2Category, 2);
+        // lands on the requested level-2 category page
         return new L2CategoryPage(driver);
     }
 }

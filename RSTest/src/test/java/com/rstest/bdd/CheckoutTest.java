@@ -19,7 +19,8 @@ public class CheckoutTest {
     public void i_have_a_product_with_mpn_in_my_basket(String MPN) {
         home = new HomePage(driver);
         ProductPage product = home.searchMPN(MPN);
-        product.addToCart(1);
+        product.addToBasket();
+        driver.get("https://uk.rs-online.com/basket");
     }
 
     @When("I proceed to checkout as a guest")
@@ -32,7 +33,7 @@ public class CheckoutTest {
     public void i_enter_my_delivery_details(Map<String, String> details) {
         checkoutPage.enterDeliveryDetails(details);
         try { Thread.sleep(5000);} catch (InterruptedException e) {}
-        checkoutPage.submit();
+        checkoutPage.submitDeliveryDetails();
     }
 
     @Then("I can fill in my payment details")
