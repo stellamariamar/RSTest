@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.ElementNotInteractableException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.rstest.bdd.DriverManager.driver;
+import static com.rstest.config.DriverManager.driver;
 
 public class AddToCartTest {
 

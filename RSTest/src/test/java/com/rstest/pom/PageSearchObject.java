@@ -13,31 +13,35 @@ public class PageSearchObject extends PageObject {
         super(driver);
     }
 
-    public SearchResultsPage search(String searchTerm) {
-        // find the search field and search for `searchTerm`
+    public void activateMPNSearch() {
+        // toggle search by MPN on
+        WebElement MPNtoggle = driver.findElement(By.xpath("//span[@data-qa='searchMPNToggle_graphic']"));
+        if (!MPNtoggle.isSelected()) MPNtoggle.click();
+    }
+
+    public void submitSearchTerm(String searchTerm) {
+        // find the search field and submit the `searchTerm`
         WebElement searchBox = driver.findElement(By.xpath("//input[@name='searchTerm']"));
         searchBox.sendKeys(searchTerm);
         searchBox.sendKeys(Keys.RETURN);
+    }
+
+    public SearchResultsPage searchForTerm(String searchTerm) {
+        submitSearchTerm(searchTerm);
         // lands on the search results page
+        // Todo: In some occasions where the term is very specific (or an MPN), the result will be
+        //    a product page, so a more refined test is required here before returning
         return new SearchResultsPage(driver);
     }
 
-    public void selectMPNSearch() {
-        WebElement MPNtoggle = driver.findElement(By.xpath("//span[@data-qa='searchMPNToggle_graphic']"));
-        System.out.println(MPNtoggle.isSelected());
-        if (!MPNtoggle.isSelected()) MPNtoggle.click();
-        System.out.println(MPNtoggle.isSelected());
-    }
-
-    public ProductPage searchMPN(String MPN) {
-        // [NOTE] lands on a different page than the `search` method but the two could be merged
-        // switch on MPN search
-        selectMPNSearch();
-        // find the search field and search for the specific `MPN`
-        WebElement searchBox = driver.findElement(By.xpath("//input[@name='searchTerm']"));
-        searchBox.sendKeys(MPN);
-        searchBox.sendKeys(Keys.RETURN);
+    public ProductPage searchForMPN(String MPN) {
+        // [NOTE] separate from the `search` method because it lands on a different page but the two could be merged
+        activateMPNSearch();
+        submitSearchTerm(MPN);
         // lands on the product page
+        // Todo: It would appear that dashes are stripped from MPNs when matching, so there are rare occasions where
+        //      a search for an MPN will counterintuitively match multiple products and return a search results page,
+        //      so a more refined test is required here before returning
         return new ProductPage(driver);
     }
 }

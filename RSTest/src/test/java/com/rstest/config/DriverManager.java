@@ -1,21 +1,22 @@
-package com.rstest.bdd;
+package com.rstest.config;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.By;
+
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
-
-
 
 public class DriverManager {
     public static WebDriver driver;
 
+    @Before
     public static void setUp(){
+        System.out.println("Setting up webdriver....");
         ChromeOptions chromeoptions = new ChromeOptions();
         DesiredCapabilities caps = new DesiredCapabilities();
         chromeoptions.addArguments("start-maximized");
@@ -27,11 +28,10 @@ public class DriverManager {
     }
 
 
-    public void cleanUp(){
-        driver.manage().deleteAllCookies();
-    }
-
+    @After
     public static void tearDown(){
-        driver.close();
+        System.out.println("Shutting down webdriver....");
+        //driver.close();
+        driver.quit();
     }
 }

@@ -1,7 +1,7 @@
 package com.rstest.bdd;
 import com.rstest.pom.HomePage;
 import com.rstest.pom.SearchResultsPage;
-import static com.rstest.bdd.DriverManager.driver;
+import static com.rstest.config.DriverManager.driver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.rstest.pom.TerminalNodePage;
@@ -22,7 +22,7 @@ public class SearchUsingFiltersTest {
     @Given("I search for a product using the search term {string}")
     public void i_search_for_a_product_using_the_search_term(String searchTerm) {
         home = new HomePage(driver);
-        results = home.search(searchTerm);
+        results = home.searchForTerm(searchTerm);
     }
 
 

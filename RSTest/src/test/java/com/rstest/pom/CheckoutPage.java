@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.Map;
 
 public class CheckoutPage extends PageObject {
+    // the page where the user enters their delivery and payment details, in order to check out
 
     public CheckoutPage(WebDriver driver) {
         super(driver);

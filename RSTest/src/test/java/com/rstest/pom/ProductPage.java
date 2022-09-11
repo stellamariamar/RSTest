@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 
 public class ProductPage extends PageSearchObject {
+    // A page for a specific product
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -36,5 +37,6 @@ public class ProductPage extends PageSearchObject {
         );
         // add to basket
         weAddToBasket.click();
+        driver.navigate().refresh();
     }
 }

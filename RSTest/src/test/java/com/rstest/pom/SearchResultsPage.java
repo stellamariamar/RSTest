@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 
 
 public class SearchResultsPage extends PageSearchObject {
+    // The page the user sees after performing a search for a specific term
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
@@ -44,7 +45,7 @@ public class SearchResultsPage extends PageSearchObject {
             );
             weSubCategory.click();
 
-        }catch(NoSuchElementException e){
+        } catch(NoSuchElementException e) {
             // If the sub Category is not present, click on 'See more' and try again
             WebElement weSeeMore = weCategory.findElement(
                     By.xpath(".//a[text()='See more']")
@@ -59,12 +60,8 @@ public class SearchResultsPage extends PageSearchObject {
                     )
             );
             weSubCategory.click();
-
         }
         return new TerminalNodePage(driver);
     }
-
-
-
 
 }

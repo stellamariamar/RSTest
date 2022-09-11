@@ -10,7 +10,7 @@ import io.cucumber.java.en.When;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.rstest.bdd.DriverManager.driver;
+import static com.rstest.config.DriverManager.driver;
 
 
 
@@ -32,14 +32,14 @@ public class CheckoutMPNProductsTest {
         // first entry in list (treat separately, search on home page)
         Map.Entry<String, Integer> entry = iterator.next();
         // search for product on home page and add to basket
-        ProductPage product = new HomePage(driver).searchMPN(entry.getKey());
+        ProductPage product = new HomePage(driver).searchForMPN(entry.getKey());
         product.setQuantity(entry.getValue());
         product.addToBasket();
         while (iterator.hasNext()){
             // next entry in the list
             entry = iterator.next();
             // search for product (while on the previous product page) and add to basket
-            product = product.searchMPN(entry.getKey());
+            product = product.searchForMPN(entry.getKey());
             product.setQuantity(entry.getValue());
             product.addToBasket();
         }

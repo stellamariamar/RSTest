@@ -1,4 +1,4 @@
-
+@execute
 Feature: Filters in search
   Scenario Outline: Search for a product and apply filters to narrow results
     Given I search for a product using the search term "<Search term>"

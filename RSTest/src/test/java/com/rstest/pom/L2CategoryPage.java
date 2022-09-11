@@ -22,4 +22,11 @@ public class L2CategoryPage extends PageSearchObject {
             return false;
         }
     }
+
+    /*
+    A more complete POM would include a method for selecting one of the sub-categories in the grid,
+    but our current tests don't require this functionality. It looks like most user journeys aim to
+    take the user to terminal node pages as quickly as possible, so the user would most likely have
+    to use the breadcrumbs to navigate to a level-2 category page.
+    */
 }

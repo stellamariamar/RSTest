@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 
 
 public class BasketPage extends PageSearchObject {
+    // the page where the user views their basket
 
     public BasketPage(WebDriver driver) {
         super(driver);
@@ -21,8 +22,8 @@ public class BasketPage extends PageSearchObject {
         return new CheckoutPage(driver);
     }
 
-    public void emptyBasket() {
-        int numBtns = driver.findElements(By.xpath("//button[@data-testid='removeProduct']")).size();
+    /*
+    int numBtns = driver.findElements(By.xpath("//button[@data-testid='removeProduct']")).size();
         for (int i = 0; i < numBtns; i++) {
             WebElement removeProductBtn = driver.findElement(
                     By.xpath("//button[@data-testid='removeProduct']")
@@ -31,4 +32,5 @@ public class BasketPage extends PageSearchObject {
             removeProductBtn.click();
         }
     }
+    */
 }

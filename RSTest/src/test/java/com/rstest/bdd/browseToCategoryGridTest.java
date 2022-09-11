@@ -1,6 +1,6 @@
 package com.rstest.bdd;
 import com.rstest.pom.HomePage;
-import static com.rstest.bdd.DriverManager.driver;
+import static com.rstest.config.DriverManager.driver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.rstest.pom.L2CategoryPage;

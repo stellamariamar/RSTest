@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LoginPage extends PageObject {
+    // the login page
+    // Note: This page object hasn't been used in the tests; all checkouts are to be performed as guest.
 
     public LoginPage(WebDriver driver) {
         super(driver);

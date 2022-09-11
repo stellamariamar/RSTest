@@ -12,6 +12,16 @@ import java.util.List;
 
 
 public class TerminalNodePage extends PageSearchObject {
+    // The "terminal node" page is a low-level page that contains a set of products, grouped together under a
+    // sub-category of products with similar features.
+    // - The user can further refine the set of products by applying filters, i.e. selecting specific values for
+    //   attributes that are specific to the products in this sub-category
+    // - The user can sort the set of products, ordering them according to price or other attributes that are
+    //   specific to the products in this sub-category
+    //
+    // This sort of page is (supposedly) called a "terminal node" because this is where the user will eventually
+    // land when searching for products, regardless of the journey they have followed (searching, browsing, etc.)
+
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     Actions actions = new Actions(driver);
 
@@ -20,7 +30,7 @@ public class TerminalNodePage extends PageSearchObject {
     }
 
     public void setFilterValues(String filter, List<String> values) {
-
+        // find a specific attribute
         WebElement weFilterTitle  = driver.findElement(
                 By.xpath(
                         String.format(
@@ -30,6 +40,11 @@ public class TerminalNodePage extends PageSearchObject {
                 )
         );
         weFilterTitle.click();
+        // find its accordion ancestor, i.e. the filter for that specific attribute
+        WebElement weFilter = weFilterTitle.findElement(
+                By.xpath("./ancestor::div[@data-testid='styled-accordion']")
+        );
+        /*
         WebElement weFilter = driver.findElement(
                 By.xpath(
                         String.format(
@@ -38,24 +53,21 @@ public class TerminalNodePage extends PageSearchObject {
                         )
                 )
         );
+        */
 
+        // select the values for the filter attribute
         for (int val = 0; val < values.size(); val++) {
-            WebElement weFilterValue = driver.findElement(
+            WebElement weFilterValue = weFilter.findElement(
                     By.xpath(
-                            String.format(
-                                    ".//p[contains(text(),'%s')]",
-                                    values.get(val)
-                            )
+                            String.format(".//p[contains(text(),'%s')]", values.get(val))
                     )
             );
-
-            // If the value is further down the list getting an ElementOutOfBounds exception
-           // org.openqa.selenium.interactions.MoveTargetOutOfBoundsException: move target out of bounds
+            // if the value is further down the list getting an ElementOutOfBounds exception
+            // org.openqa.selenium.interactions.MoveTargetOutOfBoundsException: move target out of bounds
             actions.moveToElement(weFilterValue).build().perform();
             weFilterValue.click();
-            try{Thread.sleep(2000);}catch(InterruptedException e){}
+            // try{Thread.sleep(2000);}catch(InterruptedException e){}
         }
-
 
     }
     public void applyFilter() {
@@ -82,7 +94,6 @@ public class TerminalNodePage extends PageSearchObject {
             "//div[@data-qa='table-container-header']"
             )
         );
-        System.out.println("Parent Div Text: "+ sortHeadingDiv.getText());
         String th_selector;
         if (sortOption.equals("Price")) {
             th_selector = "@data-qa='terminal-node-product-price-header'";
@@ -103,16 +114,19 @@ public class TerminalNodePage extends PageSearchObject {
         );
         System.out.println("sortBtn : "+ sortBtn.getAttribute("data-qa"));
         sortBtn.click();
-
+        try{Thread.sleep(7000);}catch(InterruptedException e){}
 
         //actions.moveToElement(applyFilterBtn).click().build().perform();
     }
 
-    public void addTopToBasket(){
-        WebElement weIncreaseBtn = driver.findElement(By.xpath("//button[@data-testid='increase-button']"));
-        WebElement weAddToBasket = driver.findElement(By.xpath("//button[@data-qa='product-tile-addtocart-button']"));
+    public void addTopItemToBasket(){
+        WebElement weIncreaseBtn = driver.findElement(By.xpath("//div[@data-testid='results-table']//button[@data-testid='increase-button']"));
+        WebElement weAddToBasket = driver.findElement(By.xpath("//div[@data-testid='results-table']//tr//button[@data-qa='product-tile-addtocart-button']"));
+        try{Thread.sleep(2000);}catch(InterruptedException e){}
         weIncreaseBtn.click();
         weAddToBasket.click();
+        driver.navigate().refresh();
+        try{Thread.sleep(5000);}catch(InterruptedException e){}
 
     }
 

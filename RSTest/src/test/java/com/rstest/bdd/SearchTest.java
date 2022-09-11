@@ -16,7 +16,7 @@ import java.time.Duration;
 import java.util.Arrays;
 /*
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.rstest.bdd.DriverManager.driver;
+import static com.rstest.config.DriverManager.driver;
 
 public class SearchTest {
 

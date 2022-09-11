@@ -25,19 +25,20 @@ public class PageObject {
             WebElement cookies = wait.until(ExpectedConditions.elementToBeClickable(By.id("ensModalBanner")));
             cookies.click();
             WebElement cookiesMin = driver.findElement(By.id("ensSave"));
+            System.out.println("Accepting necessary cookies only..");
             cookiesMin.click();
         } catch(Exception e) {}
     }
 
     public void deleteStorage(){
-        driver.manage().deleteAllCookies();
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("window.localStorage.clear();");
     }
 
 }
 
-/* Notes for Survey pop-up
-dialog popup id ='fsrInvite'
-X Button to close id = 'fsrFocusFirst'
+/*
+Notes for Survey pop-up:
+- dialog popup id ='fsrInvite'
+- X Button to close id = 'fsrFocusFirst'
 */

@@ -5,21 +5,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class HomePage extends PageSearchObject {
-
+    // the home page
     public HomePage(WebDriver driver) {
         super(driver);
         driver.get("https://uk.rs-online.com/web/");
-        //deleteStorage();  // unsure if this is effective
+        // handle the pop-up that appears for cookies
         manageCookies();
     }
 
     public void clickBrowse() {
+        // click on the "Browse" button (currently at the top left) that allows the user
+        // to quickly navigate through categories of different levels
         driver.findElement(By.xpath("//div[@data-qa='browse']")).click();
     }
 
     public void selectBrowseCategory(String category, int level) {
-        // in the browse menu, select a specific `category`, in a specific `level`
-        // (categories are in layered in levels 0, 1 and 2, from more general to more specific)
+        // in the browse menu, select a specific `category`, at a specific `level`
+        // (categories are layered in levels 0, 1 and 2, from more general to more specific)
         WebElement weCategory  = driver.findElement(
             By.xpath(
                 String.format(
