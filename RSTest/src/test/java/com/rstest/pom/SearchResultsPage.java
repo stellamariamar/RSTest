@@ -64,4 +64,18 @@ public class SearchResultsPage extends PageSearchObject {
         return new TerminalNodePage(driver);
     }
 
+    public TerminalNodePage selectPopCategory(String popCategory) {
+        // Find the Popular Category
+        WebElement wePopCategory = driver.findElement(
+                By.xpath(
+                        String.format(
+                              "//div[contains(@class,'top-categories-container')]//a[@data-qa='top-category']//span[text()='%s']",
+                                popCategory
+                        )
+                )
+        );
+        wePopCategory.click();
+        return new TerminalNodePage(driver);
+    }
+
 }

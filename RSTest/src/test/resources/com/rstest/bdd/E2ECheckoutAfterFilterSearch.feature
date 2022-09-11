@@ -1,5 +1,5 @@
-
-Feature:
+@execute
+Feature: Use search and check out items
 
   Scenario Outline: Checking out items after adding them to basket from a sorted list of products
     Given I am viewing the products in "<SubCategory>" under "<Category>" for the search term "<Search Term>"

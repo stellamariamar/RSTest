@@ -32,7 +32,7 @@ public class SearchUsingFiltersTest {
     }
     @When("I apply {string} and {string} for the filter {string}")
     public void i_apply_and_for_the_filter(String value1, String value2, String filter) {
-        beforeFilter = terminal.getNumberOfResults();
+        beforeFilter = terminal.getTotalNumberOfResults();
         terminal.setFilterValues(filter, List.of(value1, value2));
         terminal.applyFilter();
     }
@@ -40,10 +40,9 @@ public class SearchUsingFiltersTest {
 
     @Then("I should see the search results narrow down.")
     public void i_should_see_the_search_results_narrow_down() {
-        int afterFilter = terminal.getNumberOfResults();
+        int afterFilter = terminal.getTotalNumberOfResults();
         System.out.println("before "+ beforeFilter + " and after " + afterFilter);
         assertThat(afterFilter).isLessThan(beforeFilter);
-        try{Thread.sleep(5000);}catch(InterruptedException e){}
     }
 
 

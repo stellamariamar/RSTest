@@ -14,12 +14,13 @@ import io.cucumber.java.en.When;
 import java.util.Map;
 
 
-public class basketFromFilterPageTest {
+public class E2ECheckoutAfterFilterSearchTest {
 
 
     public HomePage home;
     public SearchResultsPage results;
     public TerminalNodePage terminal;
+    public BasketPage basket;
 
 
 
@@ -30,37 +31,24 @@ public class basketFromFilterPageTest {
         terminal =  results.selectSubCategory(subCategory, category);
     }
 
-    @When("I sort by {string}, {string}")
-    public void i_sort_by(String sortBy, String sortType) {
+    @Given("I have sorted the results by {string}, {string}")
+    public void i_have_sorted_the_results_by(String sortBy, String sortType) {
         try{Thread.sleep(5000);}catch(InterruptedException e){}
         terminal.sortBy(sortBy, sortType);
     }
 
-    @Then("I can buy the top product in the sorted results entering my details")
-    public void iCanBuyTheTopProductInTheSortedResultsEnteringMyDetails(Map<String, String> details)  {
-        terminal.addTopItemToBasket();
-        BasketPage basket = new BasketPage(driver);
-        driver.navigate().refresh();
-        CheckoutPage checkoutPage = basket.checkout();
-        // basket.emptyBasket();
-        try{Thread.sleep(5000);}catch(InterruptedException e){}
-        checkoutPage.enterDeliveryDetails(details);
-        try { Thread.sleep(5000);} catch (InterruptedException e) {}
-        checkoutPage.submitDeliveryDetails();
-
-    }
-
-    @Given("I have sorted the results by {string}, {string}")
-    public void i_have_sorted_the_results_by(String string, String string2) {
-
-    }
-
     @When("I add the top product to the basket")
     public void i_add_the_top_product_to_the_basket() {
+        terminal.addTopItemToBasket();
+        basket = new BasketPage(driver);
+        driver.navigate().refresh();
     }
 
     @Then("I can proceed to checkout and enter my delivery details")
-    public void i_can_proceed_to_checkout_and_enter_my_delivery_details(io.cucumber.datatable.DataTable dataTable) {
-
+    public void i_can_proceed_to_checkout_and_enter_my_delivery_details(Map<String, String> details) {
+        CheckoutPage checkoutPage = basket.checkout();
+        checkoutPage.enterDeliveryDetails(details);
+        checkoutPage.submitDeliveryDetails();
+        assertThat(checkoutPage.confirmPaymentIsEnabled()).isTrue();
     }
 }

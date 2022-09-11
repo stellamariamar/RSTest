@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -29,6 +30,18 @@ public class TerminalNodePage extends PageSearchObject {
         super(driver);
     }
 
+    public boolean confirm() {
+        // confirm that this is indeed a terminal node page
+        try {
+            driver.findElement(
+                    By.xpath("//div[@data-qa='terminal-node-page']")
+            );
+            return true;
+        } catch(NullPointerException e) {
+            return false;
+        }
+    }
+
     public void setFilterValues(String filter, List<String> values) {
         // find a specific attribute
         WebElement weFilterTitle  = driver.findElement(
@@ -44,16 +57,7 @@ public class TerminalNodePage extends PageSearchObject {
         WebElement weFilter = weFilterTitle.findElement(
                 By.xpath("./ancestor::div[@data-testid='styled-accordion']")
         );
-        /*
-        WebElement weFilter = driver.findElement(
-                By.xpath(
-                        String.format(
-                                "//div[@data-testid='styled-accordion']//span[text()='%s']/ancestor::div[@data-testid='styled-accordion']",
-                                filter
-                        )
-                )
-        );
-        */
+
 
         // select the values for the filter attribute
         for (int val = 0; val < values.size(); val++) {
@@ -66,7 +70,7 @@ public class TerminalNodePage extends PageSearchObject {
             // org.openqa.selenium.interactions.MoveTargetOutOfBoundsException: move target out of bounds
             actions.moveToElement(weFilterValue).build().perform();
             weFilterValue.click();
-            // try{Thread.sleep(2000);}catch(InterruptedException e){}
+
         }
 
     }
@@ -76,17 +80,26 @@ public class TerminalNodePage extends PageSearchObject {
                         "//button[@data-qa='apply-filters-button']"
                 )
         ));
-        //applyFilterBtn.click();
         actions.moveToElement(applyFilterBtn).click().build().perform();
+        waitForTableUpdate();
     }
 
-    public int getNumberOfResults() {
+    public int getTotalNumberOfResults() {
         String numOfProductsStr = wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath(
                         "//div[@data-qa='filter-product-amount']")
                         )
                 ).getText();
         return Integer.parseInt(numOfProductsStr.substring(0, numOfProductsStr.indexOf(" ")));
+    }
+
+    public int getNumberOfResultsOnPage() {
+        WebElement resultsTable = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        By.xpath(
+                                "//div[@data-testid='results-table']")
+                )
+        );
+        return resultsTable.findElements(By.xpath(".//button[@data-qa='product-tile-addtocart-button']")).size();
     }
 
     public void sortBy(String sortOption, String sortType){
@@ -105,29 +118,43 @@ public class TerminalNodePage extends PageSearchObject {
                         String.format(".//div[text()='%s']//ancestor::th[%s]", sortOption, th_selector)
                 )
         );
-        System.out.println("weSortAttr : "+ weSortAttr.getText());
 
         WebElement sortBtn = weSortAttr.findElement(
                 By.xpath(String.format(
                         ".//../following-sibling::div/div[contains(@data-qa,'_%s')]", sortType.trim()
                 ))
         );
-        System.out.println("sortBtn : "+ sortBtn.getAttribute("data-qa"));
         sortBtn.click();
-        try{Thread.sleep(7000);}catch(InterruptedException e){}
-
-        //actions.moveToElement(applyFilterBtn).click().build().perform();
+        waitForTableUpdate();
     }
 
     public void addTopItemToBasket(){
-        WebElement weIncreaseBtn = driver.findElement(By.xpath("//div[@data-testid='results-table']//button[@data-testid='increase-button']"));
-        WebElement weAddToBasket = driver.findElement(By.xpath("//div[@data-testid='results-table']//tr//button[@data-qa='product-tile-addtocart-button']"));
-        try{Thread.sleep(2000);}catch(InterruptedException e){}
-        weIncreaseBtn.click();
+        //WebElement weIncreaseBtn = driver.findElement(By.xpath("//div[@data-testid='results-table']//button[@data-testid='increase-button']"));
+        //weIncreaseBtn.click();
+        WebElement weAddToBasket = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath(
+                        "//div[@data-testid='results-table']//tr//button[@data-qa='product-tile-addtocart-button']"
+                ))
+        );
         weAddToBasket.click();
         driver.navigate().refresh();
-        try{Thread.sleep(5000);}catch(InterruptedException e){}
 
+    }
+
+    public void setNumOfResultsPerPage(String numStr){
+        Select weSelProdPerPage = new Select(driver.findElement(
+                By.xpath("//select[@data-qa='rpp1-select']")
+        ));
+        weSelProdPerPage.selectByVisibleText(numStr);
+        waitForTableUpdate();
+    }
+
+    public void waitForTableUpdate(){
+        // Wait for results table to be updated
+        WebElement visibleResults = wait.until(ExpectedConditions.elementToBeClickable(
+               By.xpath("//div[@data-testid='results-table']")
+        ));
+        // try{Thread.sleep(3000);}catch(InterruptedException e){};
     }
 
 }

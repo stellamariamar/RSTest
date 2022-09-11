@@ -1,4 +1,4 @@
-
+@execute
 Feature: Checkout as guest user
   Scenario: User can proceed to payment after entering sufficient delivery details
 

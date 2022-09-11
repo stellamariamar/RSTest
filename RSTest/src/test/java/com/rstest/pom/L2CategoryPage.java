@@ -2,6 +2,12 @@ package com.rstest.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class L2CategoryPage extends PageSearchObject {
     // a level-2 category page is just above the final "sub-category" or "terminal node" page
@@ -23,10 +29,15 @@ public class L2CategoryPage extends PageSearchObject {
         }
     }
 
-    /*
-    A more complete POM would include a method for selecting one of the sub-categories in the grid,
-    but our current tests don't require this functionality. It looks like most user journeys aim to
-    take the user to terminal node pages as quickly as possible, so the user would most likely have
-    to use the breadcrumbs to navigate to a level-2 category page.
-    */
+    public TerminalNodePage selectSubCategory(String subCategory){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement weSubCategory = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath(String.format(
+                        "//div[@data-testid='category-grid-section']//div[@data-testid='subcategory-title'][text()='%s']", subCategory
+                ))
+        ));
+        weSubCategory.click();
+        return new TerminalNodePage(driver);
+    }
+
 }

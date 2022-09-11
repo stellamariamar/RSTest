@@ -11,7 +11,7 @@ import java.util.Map;
 import static com.rstest.config.DriverManager.driver;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CheckoutTest {
+public class E2ECheckoutAfterMPNSearchTest {
 
     public HomePage home;
     public CheckoutPage checkoutPage;
@@ -22,17 +22,6 @@ public class CheckoutTest {
         product.addToBasket();
     }
 
-    @When("I proceed to checkout as a guest")
-    public void i_proceed_to_checkout_as_a_guest() {
-        BasketPage basket = new BasketPage(driver);
-        checkoutPage = basket.checkout();
-    }
-
-    @When("I enter my delivery details:")
-    public void i_enter_my_delivery_details(Map<String, String> details) {
-        checkoutPage.enterDeliveryDetails(details);
-        checkoutPage.submitDeliveryDetails();
-    }
 
     @Given("I have a list of products with the following Manufacturer's Part Numbers in my basket")
     public void i_have_a_list_of_products_with_the_following_manufacturer_s_part_numbers_in_my_basket(Map<String, Integer> MPNs) {
@@ -53,6 +42,19 @@ public class CheckoutTest {
                 product.setQuantity(entry.getValue());
                 product.addToBasket();
         }
+    }
+
+
+    @When("I proceed to checkout as a guest")
+    public void i_proceed_to_checkout_as_a_guest() {
+        BasketPage basket = new BasketPage(driver);
+        checkoutPage = basket.checkout();
+    }
+
+    @When("I enter my delivery details:")
+    public void i_enter_my_delivery_details(Map<String, String> details) {
+        checkoutPage.enterDeliveryDetails(details);
+        checkoutPage.submitDeliveryDetails();
     }
 
     @Then("I cannot proceed to payment")
